@@ -1,0 +1,1 @@
+docker run -i -v ./:/opt/standalone_scripts -t qgis/qgis python3 /opt/standalone_scripts/saveecobot_standalone.py
