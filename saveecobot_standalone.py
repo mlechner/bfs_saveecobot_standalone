@@ -28,7 +28,8 @@ import sys
 from datetime import datetime
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
-if sys.argv[1] and sys.argv[1] != "":
+# not yet fuctional
+if len(sys.argv) > 1 and sys.argv[1] and sys.argv[1] != "":
     savedir = sys.argv[1]
 elif os.path.dirname(os.path.realpath(__file__)) != "/":
     savedir = os.path.dirname(os.path.realpath(__file__))
@@ -37,6 +38,7 @@ elif os.path.exists("/opt/standalone_scripts"):
 else:
     print("Can not estimate savedir. Using /")
     savedir = "/"
+print("(Not yet) using savedir=" + savedir)
 app = QgsApplication([], True)
 # use OS specific paths here!
 QgsApplication.setPrefixPath("/usr", True)
@@ -210,7 +212,7 @@ class SaveecobotLoader:
                 print(str(current) + "/" + str(count) + " (" + str(round(percent, 1)) + "%) done.")
             vl.commitChanges()
 
-            QgsVectorFileWriter.writeAsVectorFormatV3(vl, savedir + "/" + self.dlg.lineEditLayerName + ".gpkg", QgsProject.instance().transformContext(), QgsVectorFileWriter.SaveVectorOptions())
+            QgsVectorFileWriter.writeAsVectorFormatV3(vl, "/opt/standalone_scripts/" + self.dlg.lineEditLayerName + ".gpkg", QgsProject.instance().transformContext(), QgsVectorFileWriter.SaveVectorOptions())
 
 myseb = SaveecobotLoader()
 myseb.run()

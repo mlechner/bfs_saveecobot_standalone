@@ -1,1 +1,5 @@
-docker run -i -v ./:/opt/standalone_scripts -t qgis/qgis python3 /opt/standalone_scripts/saveecobot_standalone.py
+# depending on docker version use
+docker run --rm -i -v ./:/opt/standalone_scripts -t qgis/qgis python3 /opt/standalone_scripts/saveecobot_standalone.py
+# or try
+docker run --rm -i -v ${PWD}:/opt/standalone_scripts -t qgis/qgis python3 /opt/standalone_scripts/saveecobot_standalone.py
+# to run the saveecobot standalone script in a QGIS container
