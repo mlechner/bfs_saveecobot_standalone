@@ -2,9 +2,9 @@
 """
 /***************************************************************************
  SaveecobotLoader
-                                 A QGIS plugin
- This plugins loads AQI data from Safeecobot
-        copyright            : (C) 2022 by Bundesamt für Strahlenschutz
+                                 A QGIS standalone script
+ This standalone script loads AQI data from Safeecobot
+        copyright            : (C) 2024 by Bundesamt für Strahlenschutz
         email                : mlechner@bfs.de
  ***************************************************************************/
 
@@ -28,7 +28,15 @@ import sys
 from datetime import datetime
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
-savedir = os.path.dirname(os.path.realpath(__file__))
+if sys.argv[1] and sys.argv[1] != "":
+    savedir = sys.argv[1]
+elif os.path.dirname(os.path.realpath(__file__)) != "/":
+    savedir = os.path.dirname(os.path.realpath(__file__))
+elif os.path.exists("/opt/standalone_scripts"):
+    savedir = "/opt/standalone_scripts"
+else:
+    print("Can not estimate savedir. Using /")
+    savedir = "/"
 app = QgsApplication([], True)
 # use OS specific paths here!
 QgsApplication.setPrefixPath("/usr", True)
@@ -202,7 +210,7 @@ class SaveecobotLoader:
                 print(str(current) + "/" + str(count) + " (" + str(round(percent, 1)) + "%) done.")
             vl.commitChanges()
 
-            QgsVectorFileWriter.writeAsVectorFormatV3(vl, savedir + self.dlg.lineEditLayerName + ".gpkg", QgsProject.instance().transformContext(), QgsVectorFileWriter.SaveVectorOptions())
+            QgsVectorFileWriter.writeAsVectorFormatV3(vl, savedir + "/" + self.dlg.lineEditLayerName + ".gpkg", QgsProject.instance().transformContext(), QgsVectorFileWriter.SaveVectorOptions())
 
 myseb = SaveecobotLoader()
 myseb.run()
